@@ -1,0 +1,17 @@
+{
+  "name": "DiscordMail",
+  "version": "0.1.0",
+  "description": "Correios, rastreio para o Discord.",
+  "main": "index.js",
+  "repository": "https://github.com/Vordlex/DiscordMail.git",
+  "author": "Yago <yago.ladislau@tksolucoes.com.br>",
+  "license": "MIT",
+  "scripts": {
+    "start": "nodemon index.js"
+  },
+  "dependencies": {
+    "correios-brasil": "^2.0.0",
+    "discord.js": "^12.2.0",
+    "dotenv": "^8.2.0"
+  }
+}
