@@ -14,6 +14,10 @@ UserMail.init(
       type: Sequelize.JSON,
       allowNull: true,
     },
+    hasNotify: {
+      type: Sequelize.JSON,
+      allowNull: false,
+    },
   },
   {
     sequelize,

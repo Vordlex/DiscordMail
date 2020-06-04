@@ -8,6 +8,17 @@ const TrackCMD = async (msg) => {
     const prefix = "!"
     const args = await msg.content.slice(prefix.length).split(" ")
     correiosSearch.push(args[1])
+    const waitMessage = new MessageEmbed()
+      .setTitle("DiscordMail")
+      .setColor("#ebdd1a")
+      .setDescription(`Aguarde`)
+      .setAuthor(
+        "DiscordMail",
+        "http://www.propeg.com.br/ad-viewer/Correios/Integrada/macbook.png",
+        "https://correios.com.br"
+      )
+
+    const needToDelete = await msg.channel.send(waitMessage)
     const resp = await correios.rastrearEncomendas(correiosSearch)
     const field = []
     resp[0].map((v) => {
@@ -35,6 +46,7 @@ const TrackCMD = async (msg) => {
         })
       }
     })
+    needToDelete.delete()
     const embed = new MessageEmbed()
       .setTitle("DiscordMail")
       .setColor("#ebdd1a")
