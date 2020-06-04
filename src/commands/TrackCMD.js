@@ -1,6 +1,5 @@
 const { MessageEmbed } = require("discord.js")
 const { RastreioBrasil } = require("correios-brasil")
-const checkExists = require("../botOperator/checkExists")
 
 const TrackCMD = async (msg) => {
   try {
@@ -46,12 +45,8 @@ const TrackCMD = async (msg) => {
         "https://correios.com.br"
       )
       .addFields(field)
-    const trackInfoFinal = []
-    trackInfoFinal.push({ cod_rastreio: args[1], dados: resp[0] })
-    checkExists(msg.author.id, trackInfoFinal)
     return msg.channel.send(embed)
   } catch (error) {
-    console.log(error)
     const embed = new MessageEmbed()
       .setTitle("DiscordMail")
       .setColor("#ebdd1a")

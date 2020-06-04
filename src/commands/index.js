@@ -1,4 +1,5 @@
 const TrackCMD = require("./TrackCMD")
+const NotifyCMD = require("./NotifyCMD")
 
 const cmdMain = (client) => {
   client.on("message", (msg) => {
@@ -7,6 +8,8 @@ const cmdMain = (client) => {
       switch (true) {
         case content.startsWith("!rastreio"):
           return TrackCMD(msg)
+        case content.startsWith("!notificar"):
+          return NotifyCMD(msg)
         default:
           return null
       }
