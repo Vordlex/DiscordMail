@@ -1,12 +1,11 @@
 const TrackCMD = require("./TrackCMD")
-const Discord = require("discord.js")
-const client = new Discord.Client()
 
-const cmdMain = () => {
+const cmdMain = (client) => {
   client.on("message", (msg) => {
     try {
-      switch (msg.content) {
-        case "!rastreio":
+      const { content } = msg
+      switch (true) {
+        case content.startsWith("!rastreio"):
           return TrackCMD(msg)
         default:
           return null
