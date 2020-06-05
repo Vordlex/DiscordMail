@@ -1,14 +1,20 @@
-const { Sequelize } = require("sequelize")
+const mongoose = require("mongoose")
 
-const sequelize = new Sequelize("emJyRtliSm", "emJyRtliSm", "s5xuNv9brj", {
-  dialect: "mysql",
-  host: "remotemysql.com",
-  port: 3306,
-  pool: {
-    max: 10,
-    min: 0,
-    idle: 10000,
-  },
-})
+const config = async () => {
+  try {
+    const connection = await mongoose.connect(
+      "mongodb+srv://@@cluster0.g2oh2.gcp.mongodb.net/test?retryWrites=true&w=majority",
+      {
+        user: "vordlex",
+        pass: "2wxQWgr5oEKO5Rmx",
+        useNewUrlParser: true,
+        useUnifiedTopology: true,
+      }
+    )
+    console.log("Foi")
+  } catch (error) {
+    console.log("Erro!")
+  }
+}
 
-module.exports = sequelize
+module.exports = config
