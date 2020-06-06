@@ -1,20 +1,25 @@
-const { Schema, model, connection } = require("mongoose")
+const { Sequelize, Model } = require("sequelize")
 
-const schema = new Schema({
-  user_id: "string",
-  trackInfo: {
-    trackCode: "string",
-    trackData: [
-      {
-        status: "string",
-        data: "string",
-        origem: [Schema.Types.Mixed],
-        destino: [Schema.Types.Mixed],
-        local: [Schema.Types.Mixed],
-      },
-    ],
+const sequelize = require("../config")
+
+class UserMail extends Model {}
+
+UserMail.init(
+  {
+    user_id: {
+      type: Sequelize.STRING,
+      primaryKey: true,
+      allowNull: false,
+    },
+    trackInfo: {
+      type: Sequelize.JSON,
+      allowNull: true,
+    },
   },
-})
-const UserMail = model("UserMail", schema)
+  {
+    sequelize,
+    modelName: "UserMail",
+  }
+)
 
-module.exports = schema
+module.exports = UserMail
