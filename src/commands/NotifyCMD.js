@@ -1,7 +1,9 @@
 const { MessageEmbed } = require("discord.js")
-const UserMail = require("../DB/models/UserMails")
 const { RastreioBrasil } = require("correios-brasil")
+
+const UserMail = require("../DB/models/UserMails")
 const notFoundHandler = require("../handler/notFound")
+const formatDate = require("../handler/formatDate")
 
 const successMessageFunc = (msg) => {
   const successMessage = new MessageEmbed()
@@ -48,11 +50,7 @@ const NotifyCMD = async (msg) => {
     if (isInvalidCode[0] === undefined) {
       return notFoundHandler(msg)
     } else if (data === null) {
-      const lastUpdate = new Date(
-        isInvalidCode[0][isInvalidCode[0].length - 1].data
-          .replace("Data  : ", "")
-          .replace(" | Hora: ", "-") + " GMT+0000"
-      )
+      const lastUpdate = formatDate(isInvalidCode)
 
       UserMail.create({
         user_id: msg.author.id,
@@ -67,38 +65,38 @@ const NotifyCMD = async (msg) => {
     } else {
       const pushData = JSON.parse(data.trackInfo)
 
+      let existCheck = false
+
       pushData.map(async (v) => {
-        if (v.code === args[1]) {
-          const alreadyExists = new MessageEmbed()
-            .setTitle("DiscordMail")
-            .setColor("#ebdd1a")
-            .setDescription(`Esse código já está lhe enviando notificações`)
-            .setAuthor(
-              "DiscordMail",
-              "http://www.propeg.com.br/ad-viewer/Correios/Integrada/macbook.png",
-              "https://correios.com.br"
-            )
-          return msg.channel.send(alreadyExists)
-        } else {
-          const lastUpdate = new Date(
-            isInvalidCode[0][isInvalidCode[0].length - 1].data
-              .replace("Data  : ", "")
-              .replace(" | Hora: ", "-") + " GMT+0000"
-          )
-          pushData.push({ code: args[1], lastUpdate })
-          await UserMail.update(
-            {
-              trackInfo: pushData,
-            },
-            {
-              where: {
-                user_id: msg.author.id,
-              },
-            }
-          )
-          return successMessageFunc()
-        }
+        v.code === args[1] ? (existCheck = true) : null
       })
+      if (existCheck) {
+        const alreadyExists = new MessageEmbed()
+          .setTitle("DiscordMail")
+          .setColor("#ebdd1a")
+          .setDescription(`Esse código já está lhe enviando notificações`)
+          .setAuthor(
+            "DiscordMail",
+            "http://www.propeg.com.br/ad-viewer/Correios/Integrada/macbook.png",
+            "https://correios.com.br"
+          )
+        return msg.channel.send(alreadyExists)
+      } else if (!existCheck) {
+        const lastUpdate = formatDate(isInvalidCode)
+        pushData.push({ code: args[1], lastUpdate })
+        await UserMail.update(
+          {
+            trackInfo: pushData,
+          },
+          {
+            where: {
+              user_id: msg.author.id,
+            },
+          }
+        )
+        console.log("veio aqui")
+        return successMessageFunc(msg)
+      }
     }
   } catch (error) {
     console.log(error)

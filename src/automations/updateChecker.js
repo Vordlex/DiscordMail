@@ -13,8 +13,12 @@ const updateChecker = async () => {
     }
     data[0].map((x) => {
       const trackInfo = JSON.parse(x.trackInfo)
-      trackInfo.map((y) => {
-        console.log(y)
+      trackInfo.map(async (y) => {
+        const correios = new RastreioBrasil()
+        const correiosSearch = []
+        correiosSearch.push(y.code)
+        const result = await correios.rastrearEncomendas(correiosSearch)
+        console.log(result[0][result[0].length - 1])
       })
     })
   } catch (error) {
