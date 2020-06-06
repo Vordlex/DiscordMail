@@ -4,6 +4,7 @@ const { RastreioBrasil } = require("correios-brasil")
 const UserMail = require("../DB/models/UserMails")
 const notFoundHandler = require("../handler/notFound")
 const formatDate = require("../handler/formatDate")
+const updateChecker = require("../automations/updateChecker")
 
 const successMessageFunc = (msg) => {
   const successMessage = new MessageEmbed()
@@ -20,6 +21,9 @@ const successMessageFunc = (msg) => {
 
 const NotifyCMD = async (msg) => {
   try {
+    setInterval(() => {
+      updateChecker(msg)
+    }, 5000)
     const waitMessage = new MessageEmbed()
       .setTitle("DiscordMail")
       .setColor("#ebdd1a")
@@ -94,7 +98,6 @@ const NotifyCMD = async (msg) => {
             },
           }
         )
-        console.log("veio aqui")
         return successMessageFunc(msg)
       }
     }

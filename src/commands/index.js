@@ -6,7 +6,7 @@ const cmdMain = (client) => {
     try {
       const { content } = msg
       switch (true) {
-        case content.startsWith("!rastreio"):
+        case content.startsWith("!rastreio" || "!rastrear"):
           return TrackCMD(msg)
         case content.startsWith("!notificar"):
           return NotifyCMD(msg)
