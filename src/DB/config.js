@@ -1,12 +1,13 @@
 const mongoose = require("mongoose")
-
+require("dotenv/config")
+const cloudpass = process.env.cloudpass
 const config = async () => {
   try {
     const connection = await mongoose.connect(
       "mongodb+srv://@@cluster0.g2oh2.gcp.mongodb.net/test?retryWrites=true&w=majority",
       {
         user: "vordlex",
-        pass: "2wxQWgr5oEKO5Rmx",
+        pass: cloudpass,
         useNewUrlParser: true,
         useUnifiedTopology: true,
       }
